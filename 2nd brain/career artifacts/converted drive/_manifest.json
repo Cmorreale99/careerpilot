@@ -1,0 +1,201 @@
+[
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Analysis of _NeuroCog — What Makes Us Different_.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Analysis of _NeuroCog — What Makes Us Different_.docx",
+    "source_sha256": "bb4c2037bf3c0a8dd6403b811c4ea948e7cfed5ea9f5517250fc4a93db3f58c8",
+    "warnings": []
+  },
+  {
+    "converter": "pdfplumber 0.11.10",
+    "output_file": "2nd brain/career artifacts/converted drive/Cam_Morreale_resume.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Cam_Morreale_resume.pdf",
+    "source_sha256": "37032dc43b5d0a0a6f39ac0cc470aa1093e755f5d5df3548decf1e6077b5af9f",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Cmorreale Resume Sep 2025.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Cmorreale Resume Sep 2025.docx",
+    "source_sha256": "bfaf2a98176d5098ccf92789d91d499aca02fd40ea347d1c06ef7a4c08809440",
+    "warnings": []
+  },
+  {
+    "converter": "pdfplumber 0.11.10",
+    "output_file": "2nd brain/career artifacts/converted drive/Cmorreale_2026_finance_CV.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Cmorreale_2026_finance_CV.pdf",
+    "source_sha256": "2e356f0fc76e8b2915c18c513c8b1f07f4752cd744d1990d37de305f7711f9d1",
+    "warnings": []
+  },
+  {
+    "converter": "pdfplumber 0.11.10",
+    "output_file": "2nd brain/career artifacts/converted drive/cmorreale_resume.docx (1).md",
+    "source_file": "2nd brain/career artifacts/raw drive/cmorreale_resume.docx (1).pdf",
+    "source_sha256": "a9ce205da4f5ffc3457935f68565c593605a18550aa410de91a14489d376d07b",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/cognitive aware LMS system.md",
+    "source_file": "2nd brain/career artifacts/raw drive/cognitive aware LMS system.docx",
+    "source_sha256": "fa3110d0a6959c31d5025d6965ce2501d9c00ba0cd8fe574d162c83cfb47293b",
+    "warnings": [
+      "Unrecognised paragraph style: Title (Style ID: Title)"
+    ]
+  },
+  {
+    "converter": "pdfplumber 0.11.10",
+    "output_file": "2nd brain/career artifacts/converted drive/Consensus hackathon_ The cryptosphere.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Consensus hackathon_ The cryptosphere.pdf",
+    "source_sha256": "231a80294f64f3990172eac33437436717a271613f84be569bfae91368b8df36",
+    "warnings": []
+  },
+  {
+    "converter": "pdfplumber 0.11.10",
+    "output_file": "2nd brain/career artifacts/converted drive/Data Systems Case Studies (Wellington, LLM Pipelines, Distributed Infra) (2).md",
+    "source_file": "2nd brain/career artifacts/raw drive/Data Systems Case Studies (Wellington, LLM Pipelines, Distributed Infra) (2).pdf",
+    "source_sha256": "fee73cdb8265312155700e6b658a20613b1b7c23b2e6540572b2dafc5f73440b",
+    "warnings": [
+      "page 8: no extractable text"
+    ]
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Day 2 - Hackton Boston Blockchain - Greenie.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Day 2 - Hackton Boston Blockchain - Greenie.docx",
+    "source_sha256": "6b367b371c60b5b949ca30710ef271a0789e3d4d09ac73b7ee59eb9c4b64da72",
+    "warnings": [
+      "Unrecognised paragraph style: Title (Style ID: Title)"
+    ]
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Excelligence Shipping Pipeline Fix.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Excelligence Shipping Pipeline Fix.docx",
+    "source_sha256": "c8ce1dc4a6c46ef6b97fcdddef910a5d6807b3a3d91e7d910f5a74b2d22bc33e",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/High level architecture.md",
+    "source_file": "2nd brain/career artifacts/raw drive/High level architecture.docx",
+    "source_sha256": "9d5f12a4c39818d359af55acb02de4a8a374ed7e7583a4a00805240f31bf505c",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/jobpilot_second_brain_architecture_reconstructed_obsidian_mvp_update.md",
+    "source_file": "2nd brain/career artifacts/raw drive/jobpilot_second_brain_architecture_reconstructed_obsidian_mvp_update.docx",
+    "source_sha256": "add1f53a32266ac9524946a134ba0215072bf7f20d4fbe436e4ae5babcdebd5a",
+    "warnings": [
+      "Unrecognised paragraph style: Code Block (Style ID: CodeBlock)"
+    ]
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/KOS_Detailed_Technical_Summary_With_Schema_Process.md",
+    "source_file": "2nd brain/career artifacts/raw drive/KOS_Detailed_Technical_Summary_With_Schema_Process.docx",
+    "source_sha256": "5d99ef08da7d591f0bfaca97a233d83813ebed2780880dcbedefe041c6bb36db",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Laufer logistics data pipeline.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Laufer logistics data pipeline.docx",
+    "source_sha256": "38d45b25d35e2f0f7bf0fdacf4575a828a574d828c2d8ecb718a1cff3ad72c0f",
+    "warnings": []
+  },
+  {
+    "converter": "pdfplumber 0.11.10",
+    "output_file": "2nd brain/career artifacts/converted drive/Learner Intelligence System architecture and ERD.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Learner Intelligence System architecture and ERD.pdf",
+    "source_sha256": "b658870fa4c4eb126e4e70785aed6a946f8a8d439e57e1ce59c5067ad45e8801",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/LMS.AI vs EdCortex.md",
+    "source_file": "2nd brain/career artifacts/raw drive/LMS.AI vs EdCortex.docx",
+    "source_sha256": "7d5ed9c3570305df61faa2694ae0fbb4cc1af31c6e0dfe1c8bb4e8263d738628",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/meeting agenda.md",
+    "source_file": "2nd brain/career artifacts/raw drive/meeting agenda.docx",
+    "source_sha256": "d96f00b2fd4afbc76f23477f4ca44c41678cdc0f9630678c567aee69ea0248dc",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/NeuroCog Differentiators.md",
+    "source_file": "2nd brain/career artifacts/raw drive/NeuroCog Differentiators.docx",
+    "source_sha256": "2557e1f286f0e984db104602ed13a653517baf232b6e0a38e64730369c30ff09",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/NeuroCog_LMS_Business_Model_Canvas.md",
+    "source_file": "2nd brain/career artifacts/raw drive/NeuroCog_LMS_Business_Model_Canvas.docx",
+    "source_sha256": "cda4d5621b949b8020d5fb7e77c13242a4a1a2a9ceafd42299c3534652e259e8",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/NeuroCog_LMS_Executive_Summary.md",
+    "source_file": "2nd brain/career artifacts/raw drive/NeuroCog_LMS_Executive_Summary.docx",
+    "source_sha256": "b0b08b072bfd71135b7b49e7d44b955851e6382a2f075635179c582f6d346d00",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/New idea_ optimized automated job search engine v2.md",
+    "source_file": "2nd brain/career artifacts/raw drive/New idea_ optimized automated job search engine v2.docx",
+    "source_sha256": "302fde8336834846e48ef22ec5a7873176df4baa3b778c663296459ac77402d8",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Pacifica weekly ingestion pattern 2.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Pacifica weekly ingestion pattern 2.docx",
+    "source_sha256": "844f981207975e93dd0e42ff95c0b905650df5e95857870d890a7ff718f82b78",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Pacifica_Weekly_Ingestion_Automation_Claude_Code_Spec_Snowflake_Only.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Pacifica_Weekly_Ingestion_Automation_Claude_Code_Spec_Snowflake_Only.docx",
+    "source_sha256": "c48a65b03658f62e897dadc6b3d63fc17dd762b579ba169f7054f58ccb083d53",
+    "warnings": [
+      "Unrecognised paragraph style: Code (Style ID: Code)"
+    ]
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Personalized learning OS summary.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Personalized learning OS summary.docx",
+    "source_sha256": "810a95a7530584b4bd24bd22c0525f1ee345a6ede46cce977bf183a6398cf95b",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/reconstructed form.md",
+    "source_file": "2nd brain/career artifacts/raw drive/reconstructed form.docx",
+    "source_sha256": "ae031f2e53c2328029f44103d4fb3a00d3837fea87f6bded1e6681c10be33404",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Second brain.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Second brain.docx",
+    "source_sha256": "6e84d7afa5b7850731e776e78f0a865c2a071142be855657aaded448cae08528",
+    "warnings": []
+  },
+  {
+    "converter": "mammoth 1.12.0",
+    "output_file": "2nd brain/career artifacts/converted drive/Technical design document.md",
+    "source_file": "2nd brain/career artifacts/raw drive/Technical design document.docx",
+    "source_sha256": "995dba14ac6bbb8087196e8674c7d27d77ef27468ec8ff696cb13bbc57c3ac4c",
+    "warnings": []
+  }
+]
