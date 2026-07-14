@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cam Morreale — Career Profile · CareerPilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead">
+  <span class="wordmark">CAREERPILOT</span>
+  <span class="masthead-note">evidence-backed career profile</span>
+</header>
+
+<main>
+  <section class="profile-head">
+    <p class="eyebrow">Comprehensive career profile</p>
+    <h1>Cam<br>Morreale</h1>
+    <div class="actions">
+      <button id="render-btn" class="btn btn-primary" type="button">Render profile</button>
+      <a id="download-btn" class="btn btn-secondary" href="/api/profile/download" download>Download profile.docx</a>
+    </div>
+    <p class="assembly-note">Assembled deterministically from the second-brain corpus.
+       No generative model writes a word of it — every line is a sourced excerpt.</p>
+  </section>
+
+  <section class="pipeline" id="pipeline" aria-label="Evidence pipeline">
+    <ol class="chain">
+      <li><span class="chain-num" id="stat-documents">–</span><span class="chain-label">source documents</span></li>
+      <li aria-hidden="true" class="chain-arrow">→</li>
+      <li><span class="chain-num" id="stat-chunks">–</span><span class="chain-label">evidence chunks</span></li>
+      <li aria-hidden="true" class="chain-arrow">→</li>
+      <li><span class="chain-num" id="stat-canonical">–</span><span class="chain-label">after exact dedup</span></li>
+      <li aria-hidden="true" class="chain-arrow">→</li>
+      <li><span class="chain-num" id="stat-artifacts">–</span><span class="chain-label">grounded artifacts</span></li>
+    </ol>
+  </section>
+
+  <section id="profile-body" class="profile-body">
+    <div class="empty-state" id="empty-state">
+      <p class="empty-mark">§</p>
+      <p>No profile rendered yet.</p>
+      <p class="empty-hint">Render assembles every artifact and its sourced evidence
+         from the database, live.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon">
+  <span>CareerPilot · claude.md step 9</span>
+  <span id="verify-line" class="verify" hidden>RENDERED FROM EVIDENCE · <span id="verify-count"></span> SOURCED LINES</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
