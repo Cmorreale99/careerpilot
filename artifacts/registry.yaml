@@ -1,0 +1,260 @@
+# CareerPilot artifact registry — implementation step 7 of claude.md.
+#
+# Every artifact here is grounded in the corpus: `grounded_in` cites the
+# document titles, headings, or resume entries that establish it. Nothing
+# in this file was invented; edit it freely — it is the human-reviewable
+# definition of your artifacts, and scripts/assign_artifacts.py treats it
+# as the source of truth.
+#
+# Fields per artifact:
+#   slug        stable identifier (used as artifacts.slug in Postgres)
+#   name        canonical display name
+#   type        project | hackathon | professional_experience | education
+#   aliases     names matched (word-boundary, case-insensitive; ALL-CAPS
+#               aliases of <= 4 chars match case-sensitively) against
+#               chunk headings and text to assign evidence
+#   documents   corpus files that are wholly about this artifact — every
+#               chunk in them is assigned to it
+#   grounded_in corpus evidence that establishes the artifact (audit note)
+
+artifacts:
+  # ---------------------------------------------------------------- projects
+  - slug: jobpilot
+    name: JobPilot
+    type: project
+    aliases: [JobPilot]
+    documents:
+      - "2nd brain/career artifacts/github/README (8).md"
+      - "2nd brain/career artifacts/converted drive/jobpilot_second_brain_architecture_reconstructed_obsidian_mvp_update.md"
+    grounded_in: >-
+      README (8) H1 "JobPilot"; document
+      jobpilot_second_brain_architecture_reconstructed_obsidian_mvp_update.
+
+  - slug: personal-knowledge-os
+    name: Personal Knowledge OS (KOS)
+    type: project
+    aliases: [KOS, Personal Knowledge OS, Personal Knowledge Operating System]
+    documents:
+      - "2nd brain/career artifacts/github/README (9).md"
+      - "2nd brain/career artifacts/raw drive/KOS - Build Spec and Implementation Plan.md"
+      - "2nd brain/career artifacts/raw drive/KOS - High Level Architecture.md"
+      - "2nd brain/career artifacts/raw drive/KOS - Technical Design Document.md"
+      - "2nd brain/career artifacts/converted drive/KOS_Detailed_Technical_Summary_With_Schema_Process.md"
+      - "2nd brain/career artifacts/converted drive/Technical design document.md"
+    grounded_in: >-
+      README (9) H1 "Personal Knowledge OS (KOS)"; three "KOS - *" raw drive
+      documents; KOS_Detailed_Technical_Summary heading "Personal Knowledge
+      OS (KOS) — Detailed Technical Summary"; Technical design document H1
+      "Personal Knowledge Operating System (KOS)".
+
+  - slug: careerpilot-second-brain
+    name: CareerPilot / Second Brain
+    type: project
+    aliases: [CareerPilot, Second Brain, MasterCV]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Second brain.md"
+    grounded_in: >-
+      Document "Second brain.docx" (goal of building the second brain and
+      careerpilot/masterCV integration).
+
+  - slug: ai-recovery-navigation
+    name: AI-Recovery-navigation
+    type: project
+    aliases: [AI-Recovery-navigation]
+    documents:
+      - "2nd brain/career artifacts/github/README (10).md"
+    grounded_in: >-
+      README (10) H1 "AI-Recovery-navigation" (AI relapse prevention and
+      care navigation planner).
+
+  - slug: ai-investment-workflow-engine
+    name: AI Investment Workflow Engine
+    type: project
+    aliases: [AI Investment Workflow Engine, Investment Workflow Engine]
+    documents:
+      - "2nd brain/career artifacts/github/README (7).md"
+    grounded_in: 'README (7) H1 "AI Investment Workflow Engine".'
+
+  - slug: boardgamegeek-pipeline
+    name: BoardGameGeek Async Data Pipeline
+    type: project
+    aliases: [BoardGameGeek, BGG]
+    documents:
+      - "2nd brain/career artifacts/github/README (11).md"
+      - "2nd brain/career artifacts/github/technical-writeup (6).md"
+    grounded_in: >-
+      README (11) H1 "BoardGameGeek — Async Data Pipeline & Relational
+      Marketplace Model"; technical-writeup (6) references BoardGameGeek
+      8 times (async ingestion, ranking reindexing).
+
+  - slug: embue-iot
+    name: Embue Secure IoT Data Architecture
+    type: project
+    aliases: [Embue]
+    documents:
+      - "2nd brain/career artifacts/github/README (12).md"
+      - "2nd brain/career artifacts/github/technical-writeup (4).md"
+    grounded_in: >-
+      README (12) H1 "Embue — Secure IoT Data Architecture & Decentralized
+      Integrity Layer"; technical-writeup (4) same title; resume entry
+      "Worcester IS FAB lab for Social Good (WPI)" describing the Embue
+      blockchain-secured IoT monitoring system.
+
+  - slug: oasis
+    name: Oasis Decentralized Social Platform
+    type: project
+    aliases: [Oasis]
+    documents:
+      - "2nd brain/career artifacts/github/README (13).md"
+    grounded_in: >-
+      README (13) H1 "Oasis — Decentralized Social Platform with Tokenized
+      Governance".
+
+  - slug: personalized-learning-os
+    name: Personalized Learning OS
+    type: project
+    aliases: [Personalized Learning OS]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Personalized learning OS summary.md"
+    grounded_in: >-
+      Document title "Personalized learning OS summary". Kept separate from
+      KOS and NeuroCog: the document names neither, and claude.md forbids
+      merging without sufficient evidence.
+
+  - slug: stock-market-simulation
+    name: Stock Market Simulation (IQP, WPI)
+    type: project
+    aliases: [Stock Market Simulation]
+    documents: []
+    grounded_in: >-
+      Resume entries "Stock Market Simulation (WPI) Jan 2022 - May 2022"
+      (Cmorreale Resume Sep 2025) and "Stock Market Simulation (IQP), WPI"
+      (Cam_Morreale_resume).
+
+  # -------------------------------------------------------------- hackathons
+  - slug: oneworld
+    name: OneWorld Tokenized Carbon Market (EasyA HackBoston)
+    type: hackathon
+    aliases: [OneWorld, EasyA HackBoston]
+    documents:
+      - "2nd brain/career artifacts/github/technical-writeup (7).md"
+    grounded_in: >-
+      technical-writeup (7) H1 "OneWorld — Tokenized Carbon Market
+      Infrastructure"; resume entry "OneWorld (EasyA HackBoston) Sep 2022".
+
+  - slug: cryptosphere-consensus
+    name: Cryptosphere (Consensus Hackathon)
+    type: hackathon
+    aliases: [cryptosphere, Consensus hackathon]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Consensus hackathon_ The cryptosphere.md"
+    grounded_in: >-
+      Document "Consensus hackathon: The cryptosphere" ("Welcome to the
+      cryptosphere!").
+
+  - slug: greenie
+    name: Greenie (Boston Blockchain Hackathon)
+    type: hackathon
+    aliases: [Greenie]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Day 2 - Hackton Boston Blockchain - Greenie.md"
+    grounded_in: >-
+      Document "Day 2 - Hackton Boston Blockchain - Greenie" (mission and
+      vision statements for Greenie).
+
+  # ------------------------------------------------- professional experience
+  - slug: wellington-management
+    name: Wellington Management — Technology Intern
+    type: professional_experience
+    aliases: [Wellington Management, Wellington]
+    documents:
+      - "2nd brain/career artifacts/github/technical-writeup (8).md"
+    grounded_in: >-
+      technical-writeup (8) H1 "Wellington Management — Reverse-Engineering
+      a $153B Investment Data Platform"; resume entry "Wellington Management
+      Company, LLP, Boston, MA — Technology Intern, June-August 2025".
+      "Data Systems Case Studies" is deliberately not document-mapped: it
+      spans multiple artifacts, so its chunks are assigned by mention.
+
+  - slug: massdep
+    name: MassDEP — Data Analyst
+    type: professional_experience
+    aliases: [MassDEP]
+    documents:
+      - "2nd brain/career artifacts/github/technical-writeup (5).md"
+    grounded_in: >-
+      technical-writeup (5) H1 "MassDEP — Document Intelligence & Power BI
+      Analytics System"; resume entry "MassDEP, Worcester MA — Data Analyst,
+      January-May 2025".
+
+  - slug: excelligence-shipping-pipeline
+    name: Excelligence Shipping Pipeline Fix
+    type: professional_experience
+    aliases: [Excelligence]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Excelligence Shipping Pipeline Fix.md"
+    grounded_in: >-
+      Document heading "Excelligence Shipping Pipeline Fix — Summary"
+      (four-carrier Snowflake ingestion defect fix).
+
+  - slug: laufer-logistics-pipeline
+    name: Laufer Logistics Data Pipeline
+    type: professional_experience
+    aliases: [Laufer]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Laufer logistics data pipeline.md"
+    grounded_in: >-
+      Document heading "Laufer Logistics Data Pipeline — Technical Summary"
+      (AWS Lambda + Snowflake ETL for freight forwarder reports).
+
+  - slug: pacifica-ingestion
+    name: Pacifica Weekly Ingestion Automation
+    type: professional_experience
+    aliases: [Pacifica]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Pacifica weekly ingestion pattern 2.md"
+      - "2nd brain/career artifacts/converted drive/Pacifica_Weekly_Ingestion_Automation_Claude_Code_Spec_Snowflake_Only.md"
+    grounded_in: >-
+      Documents "Pacifica weekly ingestion pattern 2" and
+      "Pacifica_Weekly_Ingestion_Automation_Claude_Code_Spec_Snowflake_Only"
+      (POS/SPS file ingestion into Snowflake).
+
+  - slug: neurocog-lms
+    name: NeuroCog LMS
+    type: project
+    aliases: [NeuroCog, Learner Intelligence System, LMS.AI]
+    documents:
+      - "2nd brain/career artifacts/converted drive/Analysis of _NeuroCog — What Makes Us Different_.md"
+      - "2nd brain/career artifacts/converted drive/NeuroCog Differentiators.md"
+      - "2nd brain/career artifacts/converted drive/NeuroCog_LMS_Business_Model_Canvas.md"
+      - "2nd brain/career artifacts/converted drive/NeuroCog_LMS_Executive_Summary.md"
+      - "2nd brain/career artifacts/converted drive/reconstructed form.md"
+      - "2nd brain/career artifacts/converted drive/LMS.AI vs EdCortex.md"
+      - "2nd brain/career artifacts/converted drive/cognitive aware LMS system.md"
+      - "2nd brain/career artifacts/converted drive/meeting agenda.md"
+      - "2nd brain/career artifacts/converted drive/Learner Intelligence System architecture and ERD.md"
+    grounded_in: >-
+      Four NeuroCog-titled documents; "reconstructed form" ("We're building
+      NeuroCog LMS..."); "cognitive aware LMS system" and "meeting agenda"
+      reference NeuroCog in their text; "Learner Intelligence System
+      architecture and ERD" references NeuroCog twice.
+
+  # ---------------------------------------------------------------- education
+  - slug: wpi-bs-data-science
+    name: WPI — BS Data Science
+    type: education
+    aliases: ["Bachelor's of Science, Data Science", BS Data Science, Data Science (BS)]
+    documents:
+      - "2nd brain/career artifacts/raw education/Transcript_Run.md"
+    grounded_in: >-
+      Transcript_Run ("Programs of Study: Data Science (BS)", degree awarded
+      Aug 30, 2024, With High Distinction); resume education entries.
+
+  - slug: wpi-ms-data-science
+    name: WPI — MS Data Science
+    type: education
+    aliases: ["Master's of Science, Data Science", MS Data Science]
+    documents: []
+    grounded_in: >-
+      Resume education entries "Master's of Science, Data Science"
+      (Cmorreale Resume Sep 2025) and "MS Data Science" (2026 finance CV).
