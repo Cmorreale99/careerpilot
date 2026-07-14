@@ -181,6 +181,58 @@ def profile_markdown(profile: dict) -> str:
     return "\n".join(out).rstrip() + "\n"
 
 
+def profile_docx(profile: dict) -> bytes:
+    """Render the profile dict as a downloadable .docx document."""
+    import io
+
+    from docx import Document
+
+    doc = Document()
+    p = profile["pipeline"]
+    doc.add_heading(f"{profile['subject']} — Career Profile", level=0)
+    doc.add_paragraph(
+        "Assembled deterministically from the CareerPilot evidence corpus: "
+        f"{p['documents']} source documents → {p['chunks']} chunks → "
+        f"{p['canonical_chunks']} after exact deduplication → "
+        f"{p['artifacts']} artifacts. Every line below cites its source."
+    )
+
+    for section in profile["sections"]:
+        if not section["artifacts"]:
+            continue
+        doc.add_heading(section["title"], level=1)
+        for artifact in section["artifacts"]:
+            doc.add_heading(artifact["name"], level=2)
+            grounding = doc.add_paragraph()
+            grounding.add_run("Grounding: ").italic = True
+            grounding.add_run(artifact["grounded_in"])
+            stats = doc.add_paragraph()
+            stats.add_run("Evidence: ").italic = True
+            stats.add_run(
+                f"{artifact['evidence_count']} lines from "
+                f"{artifact['source_count']} source documents."
+            )
+            for group in artifact["sources"]:
+                origin = group["source_file"] or group["document"]
+                sha = (group["source_sha256"] or "")[:12]
+                heading = f"Source: {origin}" + (f" (sha256 {sha}…)" if sha else "")
+                doc.add_heading(heading, level=3)
+                for line in group["lines"]:
+                    page = f" (p. {line['page']})" if line["page"] else ""
+                    doc.add_paragraph(f"{line['text']}{page}", style="List Bullet")
+
+    for ref in profile["resolved_references"]:
+        note = doc.add_paragraph()
+        note.add_run(
+            f"Reference note: “{ref['name']}” ({ref['slug']}) resolves to "
+            f"the {ref['canonical']} artifact."
+        ).italic = True
+
+    buffer = io.BytesIO()
+    doc.save(buffer)
+    return buffer.getvalue()
+
+
 if __name__ == "__main__":
     import json
     print(json.dumps(build_profile(), indent=2, ensure_ascii=False)[:2000])

@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.profile_builder import profile_markdown  # noqa: E402
+from app.profile_builder import profile_docx, profile_markdown  # noqa: E402
 
 PROFILE = {
     "subject": "Cam Morreale",
@@ -56,3 +56,21 @@ class TestProfileMarkdown:
 
     def test_deterministic(self):
         assert profile_markdown(PROFILE) == profile_markdown(PROFILE)
+
+
+class TestProfileDocx:
+    def test_structure_and_content(self):
+        import io
+
+        from docx import Document
+
+        doc = Document(io.BytesIO(profile_docx(PROFILE)))
+        texts = [p.text for p in doc.paragraphs]
+        styles = {p.text: p.style.name for p in doc.paragraphs}
+        assert "Cam Morreale — Career Profile" in texts
+        assert styles["Projects"] == "Heading 1"
+        assert styles["Demo Project"] == "Heading 2"
+        assert any(t.startswith("Source: 2nd brain/demo.pdf (sha256 abcdef012345") for t in texts)
+        assert styles["Built the demo. (p. 1)"] == "List Bullet"
+        assert "Shipped the demo." in texts
+        assert not any(t == "Professional Experience" for t in texts)  # empty section omitted
