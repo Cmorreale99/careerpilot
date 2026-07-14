@@ -1,0 +1,185 @@
+/* CareerPilot — the evidence ledger.
+   Palette: sage ledger paper, green-black ink, archive green structure,
+   stamp red reserved for provenance marks and the render action. */
+
+:root {
+  --paper: #EDF1EB;
+  --paper-deep: #E3E9E1;
+  --ink: #16241C;
+  --archive: #3A664B;
+  --stamp: #BC3B21;
+  --muted: #5F6E63;
+  --rule: #C6D0C6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Archivo", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+main { max-width: 60rem; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ---------------------------------------------------------- masthead */
+.masthead {
+  display: flex; justify-content: space-between; align-items: baseline;
+  max-width: 60rem; margin: 0 auto; padding: 1.25rem 1.5rem;
+  border-bottom: 2px solid var(--ink);
+}
+.wordmark {
+  font-family: "IBM Plex Mono", monospace; font-weight: 500;
+  letter-spacing: 0.35em; font-size: 0.8rem;
+}
+.masthead-note {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem; color: var(--muted);
+}
+
+/* ------------------------------------------------------ profile head */
+.profile-head { padding: 3.5rem 0 2.5rem; }
+.eyebrow {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.75rem;
+  color: var(--archive); letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+h1 {
+  font-weight: 900; text-transform: uppercase;
+  font-size: clamp(3.2rem, 10vw, 6.5rem);
+  line-height: 0.92; letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+.actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.btn {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; font-weight: 500;
+  padding: 0.8rem 1.6rem; border: 2px solid var(--ink);
+  cursor: pointer; text-decoration: none; display: inline-block;
+  background: transparent; color: var(--ink);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--ink); }
+.btn:focus-visible { outline: 3px solid var(--stamp); outline-offset: 2px; }
+.btn-primary { background: var(--stamp); border-color: var(--stamp); color: var(--paper); }
+.btn-primary:hover { box-shadow: 3px 3px 0 var(--ink); }
+.btn[disabled] { opacity: 0.55; cursor: wait; transform: none; box-shadow: none; }
+.assembly-note { color: var(--muted); max-width: 34rem; font-size: 0.95rem; }
+
+/* ---------------------------------------------------------- pipeline */
+.pipeline {
+  border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+  padding: 1.4rem 0;
+}
+.chain {
+  list-style: none; display: flex; align-items: center;
+  gap: 1.25rem; flex-wrap: wrap;
+  font-family: "IBM Plex Mono", monospace;
+}
+.chain li { display: flex; flex-direction: column; }
+.chain-num { font-size: 1.6rem; font-weight: 500; }
+.chain-label {
+  font-size: 0.68rem; color: var(--muted);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.chain-arrow { color: var(--archive); font-size: 1.2rem; }
+
+/* -------------------------------------------------------- empty state */
+.empty-state { padding: 5rem 0; text-align: center; color: var(--muted); }
+.empty-mark { font-size: 3rem; color: var(--archive); font-weight: 700; }
+.empty-hint { font-size: 0.9rem; max-width: 26rem; margin: 0.4rem auto 0; }
+
+/* ---------------------------------------------------------- sections */
+.profile-section { padding: 2.75rem 0 0.5rem; }
+.section-head {
+  display: flex; align-items: baseline; gap: 1rem;
+  border-bottom: 2px solid var(--archive); padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.section-head h2 {
+  font-weight: 900; text-transform: uppercase; letter-spacing: 0.01em;
+  font-size: 1.6rem;
+}
+.section-count {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.75rem;
+  color: var(--archive); margin-left: auto;
+}
+
+.artifact { border: 2px solid var(--ink); background: var(--paper); margin-bottom: 1.25rem; }
+.artifact-head { padding: 1.1rem 1.25rem 0.9rem; }
+.artifact-head h3 { font-size: 1.15rem; font-weight: 700; }
+.artifact-meta {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+  color: var(--muted); margin-top: 0.3rem;
+}
+.artifact-grounding {
+  font-size: 0.88rem; color: var(--muted);
+  padding: 0 1.25rem 1rem; max-width: 46rem;
+}
+
+.artifact details { border-top: 1.5px solid var(--rule); }
+.artifact summary {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.78rem;
+  padding: 0.7rem 1.25rem; cursor: pointer; color: var(--archive);
+  list-style: none; display: flex; align-items: center; gap: 0.6rem;
+}
+.artifact summary::before { content: "+"; color: var(--stamp); font-weight: 700; }
+.artifact details[open] summary::before { content: "–"; }
+.artifact summary:focus-visible { outline: 3px solid var(--stamp); outline-offset: -3px; }
+
+.source-group { padding: 0 1.25rem 1.1rem; }
+.trace {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.7rem;
+  background: var(--paper-deep); color: var(--ink);
+  padding: 0.4rem 0.6rem; margin: 0.6rem 0;
+  border-left: 3px solid var(--stamp);
+  overflow-wrap: anywhere;
+}
+.trace .sha { color: var(--muted); }
+.evidence-list { list-style: none; }
+.evidence-list li {
+  padding: 0.28rem 0 0.28rem 1rem; position: relative;
+  font-size: 0.92rem; max-width: 46rem;
+}
+.evidence-list li::before {
+  content: ""; position: absolute; left: 0; top: 0.75em;
+  width: 0.4rem; height: 2px; background: var(--archive);
+}
+.evidence-page {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  color: var(--muted); margin-left: 0.4rem; white-space: nowrap;
+}
+
+.resolved-note {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+  color: var(--muted); padding: 1.5rem 0;
+}
+
+/* ---------------------------------------------------------- colophon */
+.colophon {
+  max-width: 60rem; margin: 3rem auto 0; padding: 1.25rem 1.5rem 2.5rem;
+  border-top: 2px solid var(--ink);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; color: var(--muted);
+}
+.verify { color: var(--stamp); letter-spacing: 0.08em; }
+
+/* -------------------------------------------------------------- reveal */
+.reveal { animation: rise 420ms ease both; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 40rem) {
+  .chain { gap: 0.75rem; }
+  .chain-arrow { display: none; }
+  .chain li { flex-basis: 40%; }
+}
