@@ -181,6 +181,141 @@ def profile_markdown(profile: dict) -> str:
     return "\n".join(out).rstrip() + "\n"
 
 
+def build_summary_profile() -> dict:
+    """Assemble the LLM-organized summary profile (v2 step 3).
+
+    One page per artifact from artifact_summaries: overview,
+    contributions, capabilities, and why the work mattered — every
+    bullet keeping the chunk IDs it cites, plus the source documents
+    those chunks come from. Assembly itself is deterministic SQL; only
+    the stored summary text originated from the local LLM (v2 step 2),
+    where citations were validated against the evidence set.
+    """
+    with psycopg.connect(database_url()) as conn:
+        doc_count, = conn.execute("SELECT count(*) FROM documents").fetchone()
+        chunk_total, chunk_canonical = conn.execute(
+            "SELECT count(*), count(*) FILTER (WHERE duplicate_of IS NULL) FROM chunks"
+        ).fetchone()
+
+        rows = conn.execute(
+            """
+            SELECT a.id, a.slug, a.name, a.artifact_type, a.grounded_in,
+                   s.overview, s.contributions, s.capabilities,
+                   s.why_it_mattered, s.supporting_chunk_ids, s.model
+            FROM artifacts a
+            LEFT JOIN artifact_summaries s ON s.artifact_id = a.id
+            WHERE a.same_as IS NULL ORDER BY a.id
+            """
+        ).fetchall()
+
+        sources = {}
+        for artifact_id, docs in conn.execute(
+            """
+            SELECT s.artifact_id,
+                   array_agg(DISTINCT d.relative_path ORDER BY d.relative_path)
+            FROM artifact_summaries s,
+                 LATERAL unnest(s.supporting_chunk_ids) AS u(chunk_id)
+            JOIN chunks c ON c.id = u.chunk_id
+            JOIN documents d ON d.id = c.document_id
+            GROUP BY s.artifact_id
+            """
+        ).fetchall():
+            sources[artifact_id] = docs
+
+    models = sorted({model for *_, model in rows if model})
+    sections = []
+    for type_key, title in SECTION_ORDER:
+        entries = []
+        for (artifact_id, slug, name, artifact_type, grounded_in, overview,
+             contributions, capabilities, why_it_mattered,
+             supporting_ids, model) in rows:
+            if artifact_type != type_key:
+                continue
+            entries.append({
+                "slug": slug,
+                "name": name,
+                "grounded_in": grounded_in,
+                "summarized": overview is not None,
+                "overview": overview or "",
+                "contributions": contributions or [],
+                "capabilities": capabilities or [],
+                "why_it_mattered": why_it_mattered or "",
+                "supporting_chunk_ids": supporting_ids or [],
+                "source_documents": sources.get(artifact_id, []),
+            })
+        sections.append({"type": type_key, "title": title, "artifacts": entries})
+
+    return {
+        "subject": "Cam Morreale",
+        "kind": "summary",
+        "models": models,
+        "pipeline": {
+            "documents": doc_count,
+            "chunks": chunk_total,
+            "canonical_chunks": chunk_canonical,
+            "artifacts": len(rows),
+        },
+        "sections": sections,
+    }
+
+
+def summary_docx(profile: dict) -> bytes:
+    """Render the summary profile as a downloadable .docx document."""
+    import io
+
+    from docx import Document
+
+    doc = Document()
+    p = profile["pipeline"]
+    doc.add_heading(f"{profile['subject']} — Career Profile", level=0)
+    models = ", ".join(profile["models"]) or "local model"
+    doc.add_paragraph(
+        "One-page artifact summaries organized by a local language model "
+        f"({models}) from the CareerPilot evidence corpus: {p['documents']} "
+        f"source documents → {p['chunks']} chunks → {p['canonical_chunks']} "
+        f"after exact deduplication → {p['artifacts']} artifacts. Bracketed "
+        "numbers are evidence chunk IDs; the complete sourced corpus is "
+        "available as a separate download."
+    )
+
+    for section in profile["sections"]:
+        if not section["artifacts"]:
+            continue
+        doc.add_heading(section["title"], level=1)
+        for artifact in section["artifacts"]:
+            doc.add_heading(artifact["name"], level=2)
+            if not artifact["summarized"]:
+                note = doc.add_paragraph()
+                note.add_run(
+                    "No generated summary for this artifact yet; see the "
+                    "complete corpus document."
+                ).italic = True
+                continue
+            doc.add_paragraph(artifact["overview"])
+            if artifact["contributions"]:
+                doc.add_heading("Contributions", level=3)
+                for bullet in artifact["contributions"]:
+                    ids = ", ".join(str(i) for i in bullet.get("chunk_ids", []))
+                    doc.add_paragraph(f"{bullet['text']} [{ids}]", style="List Bullet")
+            if artifact["capabilities"]:
+                doc.add_heading("Capabilities demonstrated", level=3)
+                for bullet in artifact["capabilities"]:
+                    ids = ", ".join(str(i) for i in bullet.get("chunk_ids", []))
+                    doc.add_paragraph(f"{bullet['text']} [{ids}]", style="List Bullet")
+            if artifact["why_it_mattered"]:
+                doc.add_heading("Why it mattered", level=3)
+                doc.add_paragraph(artifact["why_it_mattered"])
+            if artifact["source_documents"]:
+                trace = doc.add_paragraph()
+                trace.add_run(
+                    "Sources: " + "; ".join(artifact["source_documents"])
+                ).italic = True
+
+    buffer = io.BytesIO()
+    doc.save(buffer)
+    return buffer.getvalue()
+
+
 def profile_docx(profile: dict) -> bytes:
     """Render the profile dict as a downloadable .docx document."""
     import io

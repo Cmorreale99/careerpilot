@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.profile_builder import profile_docx, profile_markdown  # noqa: E402
+from app.profile_builder import profile_docx, profile_markdown, summary_docx  # noqa: E402
 
 PROFILE = {
     "subject": "Cam Morreale",
@@ -56,6 +56,74 @@ class TestProfileMarkdown:
 
     def test_deterministic(self):
         assert profile_markdown(PROFILE) == profile_markdown(PROFILE)
+
+
+SUMMARY_PROFILE = {
+    "subject": "Cam Morreale",
+    "kind": "summary",
+    "models": ["qwen3.5:9b-q4_K_M"],
+    "pipeline": {"documents": 2, "chunks": 10, "canonical_chunks": 9, "artifacts": 2},
+    "sections": [
+        {"type": "project", "title": "Projects", "artifacts": [
+            {
+                "slug": "demo", "name": "Demo Project", "grounded_in": "x",
+                "summarized": True,
+                "overview": "Built a demo system.",
+                "contributions": [{"text": "Shipped it.", "chunk_ids": [4, 7]}],
+                "capabilities": [{"text": "Python.", "chunk_ids": [4]}],
+                "why_it_mattered": "Proved the idea.",
+                "supporting_chunk_ids": [4, 7],
+                "source_documents": ["2nd brain/demo.md"],
+            },
+            {
+                "slug": "bare", "name": "Bare Artifact", "grounded_in": "y",
+                "summarized": False,
+                "overview": "", "contributions": [], "capabilities": [],
+                "why_it_mattered": "", "supporting_chunk_ids": [],
+                "source_documents": [],
+            },
+        ]},
+        {"type": "education", "title": "Education", "artifacts": []},
+    ],
+}
+
+
+class TestSummaryDocx:
+    def test_structure_and_content(self):
+        import io
+
+        from docx import Document
+
+        doc = Document(io.BytesIO(summary_docx(SUMMARY_PROFILE)))
+        texts = [p.text for p in doc.paragraphs]
+        styles = {p.text: p.style.name for p in doc.paragraphs}
+        assert "Cam Morreale — Career Profile" in texts
+        assert styles["Projects"] == "Heading 1"
+        assert styles["Demo Project"] == "Heading 2"
+        assert styles["Contributions"] == "Heading 3"
+        assert styles["Shipped it. [4, 7]"] == "List Bullet"  # chunk IDs preserved
+        assert "Why it mattered" in texts
+        assert any(t.startswith("Sources: 2nd brain/demo.md") for t in texts)
+        assert "Education" not in texts  # empty section omitted
+
+    def test_unsummarized_artifact_points_to_corpus(self):
+        import io
+
+        from docx import Document
+
+        doc = Document(io.BytesIO(summary_docx(SUMMARY_PROFILE)))
+        texts = [p.text for p in doc.paragraphs]
+        assert any("No generated summary" in t for t in texts)
+
+    def test_intro_names_model_and_separate_corpus(self):
+        import io
+
+        from docx import Document
+
+        doc = Document(io.BytesIO(summary_docx(SUMMARY_PROFILE)))
+        intro = doc.paragraphs[1].text
+        assert "qwen3.5:9b-q4_K_M" in intro
+        assert "separate download" in intro
 
 
 class TestProfileDocx:

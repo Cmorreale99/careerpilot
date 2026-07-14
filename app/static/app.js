@@ -22,38 +22,50 @@ function setPipeline(p) {
   document.getElementById("stat-artifacts").textContent = fmt(p.artifacts);
 }
 
+function renderBulletList(card, title, bullets) {
+  if (!bullets.length) return;
+  card.appendChild(el("h4", "summary-subhead", title));
+  const list = el("ul", "evidence-list");
+  for (const bullet of bullets) {
+    const item = el("li", null, bullet.text);
+    if (bullet.chunk_ids && bullet.chunk_ids.length) {
+      item.appendChild(el("span", "evidence-page",
+        `chunks ${bullet.chunk_ids.join(", ")}`));
+    }
+    list.appendChild(item);
+  }
+  card.appendChild(list);
+}
+
 function renderArtifact(artifact) {
   const card = el("article", "artifact");
   const head = el("div", "artifact-head");
   head.appendChild(el("h3", null, artifact.name));
   head.appendChild(el("div", "artifact-meta",
-    `${fmt(artifact.evidence_count)} evidence lines · ${artifact.source_count} source document${artifact.source_count === 1 ? "" : "s"}`));
+    `${fmt(artifact.supporting_chunk_ids.length)} cited chunks · ${artifact.source_documents.length} source document${artifact.source_documents.length === 1 ? "" : "s"}`));
   card.appendChild(head);
-  card.appendChild(el("p", "artifact-grounding", artifact.grounded_in));
 
-  if (artifact.sources.length) {
-    const details = el("details");
-    details.appendChild(el("summary", null,
-      `evidence ledger — ${fmt(artifact.evidence_count)} lines`));
-    for (const group of artifact.sources) {
-      const wrap = el("div", "source-group");
-      const trace = el("div", "trace");
-      const origin = group.source_file || group.document;
-      trace.appendChild(document.createTextNode(origin));
-      if (group.source_sha256) {
-        trace.appendChild(el("span", "sha", `  ·  sha256 ${group.source_sha256.slice(0, 12)}…`));
-      }
-      wrap.appendChild(trace);
-      const list = el("ul", "evidence-list");
-      for (const line of group.lines) {
-        const item = el("li", null, line.text);
-        if (line.page) item.appendChild(el("span", "evidence-page", `p.${line.page}`));
-        list.appendChild(item);
-      }
-      wrap.appendChild(list);
-      details.appendChild(wrap);
-    }
-    card.appendChild(details);
+  if (!artifact.summarized) {
+    card.appendChild(el("p", "artifact-grounding",
+      "No generated summary yet — this artifact appears in the complete corpus download."));
+    return card;
+  }
+
+  const body = el("div", "summary-body");
+  body.appendChild(el("p", "summary-overview", artifact.overview));
+  renderBulletList(body, "Contributions", artifact.contributions);
+  renderBulletList(body, "Capabilities demonstrated", artifact.capabilities);
+  if (artifact.why_it_mattered) {
+    body.appendChild(el("h4", "summary-subhead", "Why it mattered"));
+    body.appendChild(el("p", "summary-overview", artifact.why_it_mattered));
+  }
+  card.appendChild(body);
+
+  if (artifact.source_documents.length) {
+    const trace = el("div", "trace");
+    trace.appendChild(document.createTextNode(
+      artifact.source_documents.map((d) => d.split("/").pop()).join("  ·  ")));
+    card.appendChild(trace);
   }
   return card;
 }
@@ -76,17 +88,15 @@ function renderProfile(profile) {
       `${section.artifacts.length} artifact${section.artifacts.length === 1 ? "" : "s"}`));
     sec.appendChild(head);
     for (const artifact of section.artifacts) {
-      total += artifact.evidence_count;
+      total += artifact.supporting_chunk_ids.length;
       sec.appendChild(renderArtifact(artifact));
     }
     profileBody.appendChild(sec);
   }
 
-  if (profile.resolved_references.length) {
-    const notes = profile.resolved_references
-      .map((r) => `“${r.name}” resolves to ${r.canonical}`)
-      .join(" · ");
-    profileBody.appendChild(el("p", "resolved-note", `Reference notes: ${notes}`));
+  if (profile.models && profile.models.length) {
+    profileBody.appendChild(el("p", "resolved-note",
+      `Summaries generated locally by ${profile.models.join(", ")}; assembly and citations are deterministic.`));
   }
 
   document.getElementById("verify-count").textContent = fmt(total);

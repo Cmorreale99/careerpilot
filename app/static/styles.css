@@ -71,6 +71,8 @@ h1 {
 .btn-primary { background: var(--stamp); border-color: var(--stamp); color: var(--paper); }
 .btn-primary:hover { box-shadow: 3px 3px 0 var(--ink); }
 .btn[disabled] { opacity: 0.55; cursor: wait; transform: none; box-shadow: none; }
+.btn-tertiary { border-color: var(--muted); color: var(--muted); }
+.btn-tertiary:hover { border-color: var(--ink); color: var(--ink); }
 .assembly-note { color: var(--muted); max-width: 34rem; font-size: 0.95rem; }
 
 /* ---------------------------------------------------------- pipeline */
@@ -123,6 +125,16 @@ h1 {
   font-size: 0.88rem; color: var(--muted);
   padding: 0 1.25rem 1rem; max-width: 46rem;
 }
+
+.summary-body { padding: 0 1.25rem 1rem; }
+.summary-overview { font-size: 0.95rem; max-width: 46rem; margin-bottom: 0.6rem; }
+.summary-subhead {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+  color: var(--archive); letter-spacing: 0.14em; text-transform: uppercase;
+  margin: 0.9rem 0 0.35rem;
+}
+.summary-body .evidence-list { margin-bottom: 0.4rem; }
+.artifact > .trace { margin: 0 1.25rem 1.1rem; }
 
 .artifact details { border-top: 1.5px solid var(--rule); }
 .artifact summary {
