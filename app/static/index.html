@@ -23,9 +23,11 @@
     <div class="actions">
       <button id="render-btn" class="btn btn-primary" type="button">Render profile</button>
       <a id="download-btn" class="btn btn-secondary" href="/api/profile/download" download>Download profile.docx</a>
+      <a id="corpus-btn" class="btn btn-tertiary" href="/api/corpus/download" download>Download complete corpus.docx</a>
     </div>
-    <p class="assembly-note">Assembled deterministically from the second-brain corpus.
-       No generative model writes a word of it — every line is a sourced excerpt.</p>
+    <p class="assembly-note">One-page artifact summaries organized by a local model
+       from the second-brain corpus — every claim cites its evidence chunks, and the
+       complete sourced corpus stays available as its own download.</p>
   </section>
 
   <section class="pipeline" id="pipeline" aria-label="Evidence pipeline">
@@ -52,7 +54,7 @@
 
 <footer class="colophon">
   <span>CareerPilot · claude.md step 9</span>
-  <span id="verify-line" class="verify" hidden>RENDERED FROM EVIDENCE · <span id="verify-count"></span> SOURCED LINES</span>
+  <span id="verify-line" class="verify" hidden>RENDERED FROM EVIDENCE · <span id="verify-count"></span> CITED CHUNKS</span>
 </footer>
 
 <script src="app.js"></script>
