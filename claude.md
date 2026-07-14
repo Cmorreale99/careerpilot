@@ -22,6 +22,7 @@ For each artifact, collect the chunks that describe the user's role, responsibil
 9. create the website using plugins/frontend-design/. I want the comprehensive career profile at the top with a button to render it and another to download it.
 
 v2: V1 already has artifacts broken correctly defined and the pipeline is working. The corpus is present. However, the document is around 250 pages which is far too long and nobody will read that. The goal of v2 is to summarize each artifact into a one page summary that contains a high level overview of what the artifact was, my contributions, the technical and professional capabilities demonstrated, and why the work mattered. 
+Use Ollama as the local LLM provider for artifact summarization with qwen3.5:9b-q4_K_M as the primary model and qwen3.5:4b-q8_0 as the fallback, running at http://localhost:11434 with an 8,192-token context window, low temperature (0.1), structured JSON output, and deterministic batching for artifacts that exceed the context limit. Ollama may only summarize evidence after ingestion, deduplication, and artifact assignment are complete; it must not create artifacts, assign chunks, modify canonical evidence, invent claims, or remove provenance. Every generated summary must preserve supporting chunk IDs, and invalid outputs or unsupported citations must fail rather than silently falling back to a paid provider.
 
 v2 implementation
 1. Set up Ollama and allow it to access the corpus
