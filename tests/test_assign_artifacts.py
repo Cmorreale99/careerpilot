@@ -5,7 +5,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
+import pytest  # noqa: E402
+
 from assign_artifacts import alias_pattern, fold, strip_emphasis  # noqa: E402
+import assign_artifacts  # noqa: E402
 
 
 def matches(alias: str, text: str) -> bool:
@@ -58,3 +61,59 @@ class TestAliasMatching:
 
     def test_alias_with_trailing_paren(self):
         assert matches("Data Science (BS)", "Programs of Study: Data Science (BS)")
+
+
+def make_registry(tmp_path, monkeypatch, yaml_text: str):
+    registry = tmp_path / "registry.yaml"
+    registry.write_text(yaml_text, encoding="utf-8")
+    monkeypatch.setattr(assign_artifacts, "REGISTRY_PATH", registry)
+    return assign_artifacts.load_registry()
+
+
+BASE = """
+artifacts:
+  - {{slug: canonical, name: Canonical, type: project, aliases: [Canon],
+     documents: ["doc-a.md"], grounded_in: x{extra_canonical}}}
+  - {{slug: dupe, name: Dupe, type: project, aliases: [Dupe],
+     documents: ["doc-b.md"], grounded_in: x{extra_dupe}}}
+"""
+
+
+class TestSameAsResolution:
+    def test_same_as_folds_aliases_and_documents(self, tmp_path, monkeypatch):
+        entries = make_registry(tmp_path, monkeypatch,
+                                BASE.format(extra_canonical="", extra_dupe=", same_as: canonical"))
+        canonical = next(e for e in entries if e["slug"] == "canonical")
+        assert canonical["aliases"] == ["Canon", "Dupe"]
+        assert canonical["documents"] == ["doc-a.md", "doc-b.md"]
+        dupe = next(e for e in entries if e["slug"] == "dupe")
+        assert dupe["same_as"] == "canonical"  # entry kept on record
+
+    def test_same_as_unknown_target_rejected(self, tmp_path, monkeypatch):
+        with pytest.raises(SystemExit):
+            make_registry(tmp_path, monkeypatch,
+                          BASE.format(extra_canonical="", extra_dupe=", same_as: nope"))
+
+    def test_same_as_chain_rejected(self, tmp_path, monkeypatch):
+        with pytest.raises(SystemExit):
+            make_registry(tmp_path, monkeypatch,
+                          BASE.format(extra_canonical=", same_as: dupe",
+                                      extra_dupe=", same_as: canonical"))
+
+    def test_duplicate_alias_across_canonicals_rejected(self, tmp_path, monkeypatch):
+        with pytest.raises(SystemExit):
+            make_registry(tmp_path, monkeypatch, """
+artifacts:
+  - {slug: one, name: One, type: project, aliases: [Shared], grounded_in: x}
+  - {slug: two, name: Two, type: project, aliases: [Shared], grounded_in: x}
+""")
+
+    def test_shared_alias_with_same_as_target_allowed(self, tmp_path, monkeypatch):
+        entries = make_registry(tmp_path, monkeypatch, """
+artifacts:
+  - {slug: one, name: One, type: project, aliases: [Shared], grounded_in: x}
+  - {slug: two, name: Two, type: project, aliases: [Shared], grounded_in: x,
+     same_as: one}
+""")
+        canonical = next(e for e in entries if e["slug"] == "one")
+        assert canonical["aliases"] == ["Shared"]  # no duplicate added

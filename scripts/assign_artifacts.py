@@ -21,6 +21,16 @@ the rule and text that produced it. A chunk may belong to several
 artifacts; chunks matching nothing stay unassigned rather than being
 guessed at.
 
+Duplicate artifact references (claude.md step 8) are resolved in the
+registry with `same_as: <canonical-slug>`: the duplicate entry stays in
+the registry and the artifacts table — its name, grounding, and the
+evidence for the resolution remain on record — while its aliases and
+document mappings fold into the canonical artifact, so all evidence
+assigns to one canonical artifact and nothing is deleted. Candidates
+are surfaced by scripts/dedupe_artifacts.py; adding `same_as` is a
+human decision, per the claude.md rule against merging without
+sufficient evidence.
+
 Re-running rebuilds all assignments from the current registry and chunk
 set, so the result is idempotent.
 
@@ -50,8 +60,10 @@ CREATE TABLE IF NOT EXISTS artifacts (
     name          TEXT NOT NULL,
     artifact_type TEXT NOT NULL CHECK (artifact_type IN {ARTIFACT_TYPES!r}),
     aliases       TEXT[] NOT NULL,
-    grounded_in   TEXT NOT NULL
+    grounded_in   TEXT NOT NULL,
+    same_as       TEXT
 );
+ALTER TABLE artifacts ADD COLUMN IF NOT EXISTS same_as TEXT;
 CREATE TABLE IF NOT EXISTS chunk_artifacts (
     chunk_id      BIGINT NOT NULL REFERENCES chunks(id) ON DELETE CASCADE,
     artifact_id   BIGINT NOT NULL REFERENCES artifacts(id) ON DELETE CASCADE,
@@ -108,12 +120,41 @@ def load_registry() -> list[dict]:
             raise SystemExit(1)
         seen_slugs.add(entry["slug"])
         entry.setdefault("documents", [])
+        entry.setdefault("same_as", None)
         entry["aliases"] = [str(a) for a in entry["aliases"]]
         for alias in entry["aliases"]:
             if not alias.strip():
                 print(f"error: artifact {entry['slug']} has an empty alias",
                       file=sys.stderr)
                 raise SystemExit(1)
+
+    # Resolve same_as references (step 8): validate targets, then fold each
+    # duplicate's aliases and documents into its canonical entry. The
+    # duplicate entry itself is kept (returned) so it stays on record.
+    by_slug = {e["slug"]: e for e in entries}
+    for entry in entries:
+        target = entry["same_as"]
+        if target is None:
+            continue
+        if target not in by_slug:
+            print(f"error: {entry['slug']} has same_as unknown slug {target!r}",
+                  file=sys.stderr)
+            raise SystemExit(1)
+        if target == entry["slug"] or by_slug[target]["same_as"] is not None:
+            print(f"error: {entry['slug']} same_as {target!r} is self-referential "
+                  "or chained (same_as targets must be canonical)", file=sys.stderr)
+            raise SystemExit(1)
+        canonical = by_slug[target]
+        canonical["aliases"] += [a for a in entry["aliases"]
+                                 if fold(a) not in {fold(x) for x in canonical["aliases"]}]
+        canonical["documents"] += [d for d in entry["documents"]
+                                   if d not in canonical["documents"]]
+
+    # Alias uniqueness is enforced across *canonical* artifacts only.
+    for entry in entries:
+        if entry["same_as"] is not None:
+            continue
+        for alias in entry["aliases"]:
             key = fold(alias)
             if key in seen_aliases and seen_aliases[key] != entry["slug"]:
                 print(f"error: alias {alias!r} appears in both "
@@ -150,14 +191,15 @@ def main() -> int:
         for entry in registry:
             conn.execute(
                 """
-                INSERT INTO artifacts (slug, name, artifact_type, aliases, grounded_in)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO artifacts (slug, name, artifact_type, aliases, grounded_in, same_as)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 ON CONFLICT (slug) DO UPDATE SET
                     name = EXCLUDED.name, artifact_type = EXCLUDED.artifact_type,
-                    aliases = EXCLUDED.aliases, grounded_in = EXCLUDED.grounded_in
+                    aliases = EXCLUDED.aliases, grounded_in = EXCLUDED.grounded_in,
+                    same_as = EXCLUDED.same_as
                 """,
                 (entry["slug"], entry["name"], entry["type"],
-                 entry["aliases"], entry["grounded_in"]),
+                 entry["aliases"], entry["grounded_in"], entry["same_as"]),
             )
         removed = conn.execute(
             "DELETE FROM artifacts WHERE slug != ALL(%s)", (slugs,)
@@ -166,10 +208,14 @@ def main() -> int:
             print(f"removed {removed} artifacts no longer in the registry")
         artifact_ids = dict(conn.execute("SELECT slug, id FROM artifacts").fetchall())
 
+        # Only canonical artifacts match and receive assignments; same_as
+        # entries have already folded their aliases/documents into them.
+        canonical = [e for e in registry if e["same_as"] is None]
+
         # Validate document mappings against the ingested corpus.
         known_paths = {p for (p,) in conn.execute("SELECT relative_path FROM documents")}
         doc_map: dict[str, list[str]] = {}
-        for entry in registry:
+        for entry in canonical:
             for doc in entry["documents"]:
                 if doc not in known_paths:
                     print(f"warning: {entry['slug']} maps unknown document: {doc}",
@@ -179,7 +225,7 @@ def main() -> int:
 
         matchers = [
             (entry["slug"], alias, *alias_pattern(alias))
-            for entry in registry for alias in entry["aliases"]
+            for entry in canonical for alias in entry["aliases"]
         ]
 
         # Rebuild all assignments from scratch (deterministic, idempotent).
@@ -219,7 +265,12 @@ def main() -> int:
             )
         conn.commit()
 
-        print(f"{len(assignments)} assignments written for {len(registry)} artifacts\n")
+        resolved = [(e["slug"], e["same_as"]) for e in registry if e["same_as"]]
+        print(f"{len(assignments)} assignments written for {len(canonical)} canonical "
+              f"artifacts ({len(resolved)} resolved via same_as)")
+        for slug, target in resolved:
+            print(f"  {slug} -> {target}")
+        print()
         stats = conn.execute(
             """
             SELECT a.slug, a.artifact_type, count(*) AS chunks,
@@ -234,7 +285,8 @@ def main() -> int:
         for slug, kind, chunks, by_doc, by_heading, by_mention in stats:
             print(f"{slug:<34} {kind:<24} {chunks:>6} {by_doc:>6} {by_heading:>5} {by_mention:>5}")
         assigned_slugs = {s for s, *_ in stats}
-        for slug in sorted(set(slugs) - assigned_slugs):
+        canonical_slugs = {e["slug"] for e in canonical}
+        for slug in sorted(canonical_slugs - assigned_slugs):
             print(f"{slug:<34} (no chunks assigned)")
 
         unassigned = conn.execute(

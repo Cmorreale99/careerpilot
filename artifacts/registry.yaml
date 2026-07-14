@@ -16,6 +16,13 @@
 #   documents   corpus files that are wholly about this artifact — every
 #               chunk in them is assigned to it
 #   grounded_in corpus evidence that establishes the artifact (audit note)
+#   same_as     (step 8) marks this entry as a duplicate reference of the
+#               named canonical artifact: its aliases and documents fold
+#               into the canonical one and all evidence assigns there,
+#               while this entry stays on record with the merge evidence
+#               in its grounded_in. Only add same_as when the corpus
+#               clearly shows both names refer to one artifact
+#               (candidates: scripts/dedupe_artifacts.py).
 
 artifacts:
   # ---------------------------------------------------------------- projects
@@ -142,10 +149,8 @@ artifacts:
     grounded_in: >-
       technical-writeup (7) H1 "OneWorld — Tokenized Carbon Market
       Infrastructure"; resume entry "OneWorld (EasyA HackBoston) Sep 2022".
-      Note: the Greenie document describes "a Carbon Fungible Token named
-      OneWorld" and OneWorld.online — possible relation to the greenie
-      artifact; kept separate per the claude.md no-merge rule, flagged
-      for step 8 alias resolution.
+      Canonical artifact for the greenie entry (resolved in step 8 — see
+      its grounded_in for the evidence).
 
   - slug: cryptosphere-consensus
     name: Cryptosphere (Consensus Hackathon)
@@ -160,15 +165,19 @@ artifacts:
   - slug: greenie
     name: Greenie (Boston Blockchain Hackathon)
     type: hackathon
+    same_as: oneworld
     aliases: [Greenie]
     documents:
       - "2nd brain/career artifacts/converted drive/Day 2 - Hackton Boston Blockchain - Greenie.md"
     grounded_in: >-
-      Document "Day 2 - Hackton Boston Blockchain - Greenie" (mission and
-      vision statements for Greenie). Note: this document describes "a
-      Carbon Fungible Token named OneWorld" — possible relation to the
-      oneworld artifact; kept separate per the claude.md no-merge rule,
-      flagged for step 8 alias resolution.
+      Document "Day 2 - Hackton Boston Blockchain - Greenie". Resolved to
+      oneworld in step 8: the document's content never mentions "Greenie"
+      (the name appears only in the filename, likely the team name) and is
+      entirely about OneWorld — "a Carbon Fungible Token named OneWorld"
+      for cap-and-trade, OneWorld.online — matching technical-writeup (7)
+      "OneWorld — Tokenized Carbon Market Infrastructure" and the resume
+      entry "OneWorld (EasyA HackBoston) Sep 2022", both Boston blockchain
+      hackathon artifacts from the same period.
 
   # ------------------------------------------------- professional experience
   - slug: wellington-management
