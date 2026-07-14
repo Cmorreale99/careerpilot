@@ -1,0 +1,9 @@
+[
+  {
+    "converter": "pdfplumber 0.11.10",
+    "output_file": "2nd brain/career artifacts/raw education/Transcript_Run.md",
+    "source_file": "2nd brain/career artifacts/raw education/Transcript_Run.pdf",
+    "source_sha256": "373e1100cf41dca5fbc105214f27496cc4e66623d684aaa015558aabac63ee2e",
+    "warnings": []
+  }
+]
