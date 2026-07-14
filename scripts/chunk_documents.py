@@ -65,6 +65,7 @@ ALTER TABLE documents ADD COLUMN IF NOT EXISTS chunked_sha256 TEXT;
 PAGE_MARKER_RE = re.compile(r"<!--\s*source page (\d+)\s*-->")
 HTML_COMMENT_RE = re.compile(r"^\s*<!--.*-->\s*$")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
+HORIZONTAL_RULE_RE = re.compile(r"^\s*(-{3,}|\*{3,}|_{3,})\s*$")
 LIST_ITEM_RE = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s+\S")
 TABLE_ROW_RE = re.compile(r"^\s*\|")
 FENCE_RE = re.compile(r"^\s*(```|~~~)")
@@ -177,7 +178,7 @@ def chunk_body(body: str) -> list[dict]:
             in_fence = True
             fence_start = start
             continue
-        if not stripped:
+        if not stripped or HORIZONTAL_RULE_RE.match(stripped):
             flush_paragraph(start)
             continue
 
