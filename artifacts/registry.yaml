@@ -101,14 +101,15 @@ artifacts:
       blockchain-secured IoT monitoring system.
 
   - slug: oasis
-    name: Oasis Decentralized Social Platform
-    type: project
+    name: Oasis Decentralized Social Platform (EasyA x Polkadot Hackathon)
+    type: hackathon
     aliases: [Oasis]
     documents:
       - "2nd brain/career artifacts/github/README (13).md"
     grounded_in: >-
       README (13) H1 "Oasis — Decentralized Social Platform with Tokenized
-      Governance".
+      Governance"; resume entry "Oasis — EasyA x Polkadot Hackathon
+      (1st place), System Design & Business Logic Lead, Jun 2023".
 
   - slug: personalized-learning-os
     name: Personalized Learning OS
@@ -141,6 +142,10 @@ artifacts:
     grounded_in: >-
       technical-writeup (7) H1 "OneWorld — Tokenized Carbon Market
       Infrastructure"; resume entry "OneWorld (EasyA HackBoston) Sep 2022".
+      Note: the Greenie document describes "a Carbon Fungible Token named
+      OneWorld" and OneWorld.online — possible relation to the greenie
+      artifact; kept separate per the claude.md no-merge rule, flagged
+      for step 8 alias resolution.
 
   - slug: cryptosphere-consensus
     name: Cryptosphere (Consensus Hackathon)
@@ -160,7 +165,10 @@ artifacts:
       - "2nd brain/career artifacts/converted drive/Day 2 - Hackton Boston Blockchain - Greenie.md"
     grounded_in: >-
       Document "Day 2 - Hackton Boston Blockchain - Greenie" (mission and
-      vision statements for Greenie).
+      vision statements for Greenie). Note: this document describes "a
+      Carbon Fungible Token named OneWorld" — possible relation to the
+      oneworld artifact; kept separate per the claude.md no-merge rule,
+      flagged for step 8 alias resolution.
 
   # ------------------------------------------------- professional experience
   - slug: wellington-management
@@ -186,6 +194,21 @@ artifacts:
       technical-writeup (5) H1 "MassDEP — Document Intelligence & Power BI
       Analytics System"; resume entry "MassDEP, Worcester MA — Data Analyst,
       January-May 2025".
+
+  - slug: cooper-ai
+    name: Cooper.ai — Data Engineer (Contract)
+    type: professional_experience
+    aliases: [Cooper.ai, CooperAI]
+    documents: []
+    grounded_in: >-
+      Resume entry "Cooper.ai — Data Engineer (Contract) | Remote June
+      2026–Present" (cmorreale_resume.docx (1)); "Project: Cooper.ai -
+      Pacifica Automation" and "cooper_shipping_pipeline_fixes" in the
+      JobPilot/Second Brain architecture document; COOPERAI_PROD Snowflake
+      references in the Laufer and Pacifica documents. The Excelligence,
+      Laufer, and Pacifica pipelines are client engagements performed at
+      Cooper.ai; they remain separate artifacts per the claude.md
+      no-merge rule.
 
   - slug: excelligence-shipping-pipeline
     name: Excelligence Shipping Pipeline Fix

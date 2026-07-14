@@ -65,8 +65,14 @@ CREATE INDEX IF NOT EXISTS chunk_artifacts_artifact_idx ON chunk_artifacts (arti
 METHOD_RANK = {"document": 0, "heading": 1, "mention": 2}
 
 
+def strip_emphasis(text: str) -> str:
+    # Mammoth renders bold as __text__/**text** and underscores count as \w,
+    # which would defeat the word-boundary lookarounds around an alias.
+    return text.replace("__", " ").replace("**", " ")
+
+
 def fold(text: str) -> str:
-    return text.replace("’", "'").replace("‘", "'").lower()
+    return strip_emphasis(text).replace("’", "'").replace("‘", "'").lower()
 
 
 def alias_pattern(alias: str) -> tuple[re.Pattern, bool]:
@@ -86,6 +92,7 @@ def load_registry() -> list[dict]:
         print(f"error: no artifacts found in {REGISTRY_PATH}", file=sys.stderr)
         raise SystemExit(1)
     seen_slugs: set[str] = set()
+    seen_aliases: dict[str, str] = {}
     for entry in entries:
         for field in ("slug", "name", "type", "aliases", "grounded_in"):
             if field not in entry:
@@ -102,6 +109,17 @@ def load_registry() -> list[dict]:
         seen_slugs.add(entry["slug"])
         entry.setdefault("documents", [])
         entry["aliases"] = [str(a) for a in entry["aliases"]]
+        for alias in entry["aliases"]:
+            if not alias.strip():
+                print(f"error: artifact {entry['slug']} has an empty alias",
+                      file=sys.stderr)
+                raise SystemExit(1)
+            key = fold(alias)
+            if key in seen_aliases and seen_aliases[key] != entry["slug"]:
+                print(f"error: alias {alias!r} appears in both "
+                      f"{seen_aliases[key]} and {entry['slug']}", file=sys.stderr)
+                raise SystemExit(1)
+            seen_aliases[key] = entry["slug"]
     return entries
 
 
@@ -185,8 +203,8 @@ def main() -> int:
             heading_blob = " > ".join(heading_path)
             heading_folded, text_folded = fold(heading_blob), fold(text_norm)
             for slug, alias, pattern, case_sensitive in matchers:
-                heading_hay = heading_blob if case_sensitive else heading_folded
-                text_hay = text if case_sensitive else text_folded
+                heading_hay = strip_emphasis(heading_blob) if case_sensitive else heading_folded
+                text_hay = strip_emphasis(text) if case_sensitive else text_folded
                 if pattern.search(heading_hay):
                     propose(chunk_id, slug, "heading", alias)
                 elif pattern.search(text_hay):
