@@ -21,4 +21,13 @@ For each artifact, collect the chunks that describe the user's role, responsibil
 8. Deduplicate artifact references. Different names or aliases that clearly refer to the same project, hackathon, experience, or education entry should resolve to one canonical artifact. Deduplicating an artifact must not delete its evidence or source references. If two artifact references might represent separate artifacts, keep them separate rather than merging them without sufficient evidence.
 9. create the website using plugins/frontend-design/. I want the comprehensive career profile at the top with a button to render it and another to download it.
 
+v2: V1 already has artifacts broken correctly defined and the pipeline is working. The corpus is present. However, the document is around 250 pages which is far too long and nobody will read that. The goal of v2 is to summarize each artifact into a one page summary that contains a high level overview of what the artifact was, my contributions, the technical and professional capabilities demonstrated, and why the work mattered. 
+
+v2 implementation
+1. Set up Ollama and allow it to access the corpus
+2. Have it do one pass, it will loop through the document one artifact at a time and build the one page summary one by one containing a high level overview of the artifact, my contributions, technical and professional capabilities demonstrated, and why the work mattered. (Note: save each artifact summary independently so one failed API request does not force the entire corpus to be processed again)
+3. Update the renderable document so it’s the new LLM organized one while preserving the original complete corpus separately.
+
+
+
 
