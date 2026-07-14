@@ -1,0 +1,284 @@
+{
+  "main": {
+    "id": "76e650ce7d3b142f",
+    "type": "split",
+    "children": [
+      {
+        "id": "50d7b6ac98ef5754",
+        "type": "tabs",
+        "dimension": 81.45973154362416,
+        "children": [
+          {
+            "id": "812b513e1ceb6a19",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Welcome.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Welcome"
+            }
+          },
+          {
+            "id": "250492bdd7158642",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "claude.md.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "claude.md"
+            }
+          },
+          {
+            "id": "f9ae1709f39bc500",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ],
+        "currentTab": 2
+      },
+      {
+        "id": "23ee81733805769d",
+        "type": "tabs",
+        "dimension": 18.540268456375838,
+        "children": [
+          {
+            "id": "09f4a6a84cfe8d47",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "claude.md.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "claude.md"
+            }
+          },
+          {
+            "id": "e30629e867b0a8f7",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c66cd57eeb75968e",
+    "type": "split",
+    "children": [
+      {
+        "id": "e98e63ebfe8b5a61",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6b25bf5b90c1fd17",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "3a2696199bf5c7b7",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "28a6400e7d3f839f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "812d75dcb546cfb4",
+    "type": "split",
+    "children": [
+      {
+        "id": "6ca21079abee8c59",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0167e74fa4a8c94d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "a660fa493ae6b971",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "92e901e32701765d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "8af25e6b917173f5",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "ffed4d179b7ab10e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "f9ae1709f39bc500",
+  "lastOpenFiles": [
+    "readme.md.md",
+    "career artifacts/raw drive/~$gnitive aware LMS system.docx",
+    "career artifacts/raw drive/KOS_Detailed_Technical_Summary_With_Schema_Process.docx",
+    "career artifacts/raw drive/KOS - Technical Design Document.md",
+    "career artifacts/raw drive/KOS - High Level Architecture.md",
+    "career artifacts/raw drive/Technical design document.docx",
+    "career artifacts/raw drive/Personalized learning OS summary.docx",
+    "career artifacts/raw drive/KOS - Build Spec and Implementation Plan.md",
+    "career artifacts/raw drive/High level architecture.docx",
+    "career artifacts/raw drive/reconstructed form.docx",
+    "career artifacts/raw drive/NeuroCog_LMS_Executive_Summary.docx",
+    "career artifacts/raw drive/NeuroCog_LMS_Business_Model_Canvas.docx",
+    "career artifacts/raw drive/meeting agenda.docx",
+    "career artifacts/raw drive/Learner Intelligence System architecture and ERD.pdf",
+    "career artifacts/raw drive/Personal knowledge OS/KOS - Technical Design Document.md",
+    "career artifacts/raw drive/Personal knowledge OS/KOS - Build Spec and Implementation Plan.md",
+    "career artifacts/raw drive/Personal knowledge OS/KOS - High Level Architecture.md",
+    "career artifacts/raw drive/cognitive aware LMS system/Luis_Agent_ResearchProjectLMS/LMSpotentialsystem.png",
+    "career artifacts/github/README (7).md",
+    "career artifacts/github/README (8).md",
+    "career artifacts/github/README (9).md",
+    "career artifacts/github/README (10).md",
+    "career artifacts/github/README (11).md",
+    "career artifacts/github/README (12).md",
+    "career artifacts/github/technical-writeup (4).md",
+    "career artifacts/github/technical-writeup (5).md",
+    "career artifacts/github/technical-writeup (6).md",
+    "career artifacts/github/README (13).md",
+    "career artifacts/github/technical-writeup (7).md",
+    "career artifacts/github/technical-writeup (8).md",
+    "career artifacts/raw drive/Career Docs/cognitive aware LMS system/Luis_Agent_ResearchProjectLMS/LMSpotentialsystem.png",
+    "career artifacts/raw drive/Career Docs/Personal knowledge OS/KOS - Technical Design Document.md",
+    "career artifacts/raw drive/Career Docs/Personal knowledge OS/KOS - High Level Architecture.md",
+    "career artifacts/raw drive/Career Docs/Personal knowledge OS/KOS - Build Spec and Implementation Plan.md",
+    "claude.md.md",
+    "Untitled.md",
+    "Welcome.md"
+  ]
+}
