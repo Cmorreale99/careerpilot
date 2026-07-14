@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Obsidian workspace state (rewritten constantly while vault is open)
+2nd brain/.obsidian/workspace.json
