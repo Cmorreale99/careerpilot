@@ -1,4 +1,8 @@
----
+from pathlib import Path
+import html
+import re
+
+markdown_text = """---
 title: CareerPilot
 description: CareerPilot turns scattered career evidence into structured, evidence-backed career profiles for career advisors and their clients.
 ---
@@ -279,8 +283,6 @@ CareerPilot will not add automation merely because it is technically possible.
 
 ## Product Demo
 
-<!-- Replace the placeholder below with a Loom, YouTube, Vimeo, or other public demo link. -->
-
 A short demonstration of the functional local MVP will be added here.
 
 [Watch the CareerPilot demo](#)
@@ -438,9 +440,7 @@ His experience includes building data pipelines, automating operational workflow
 
 CareerPilot was also motivated by a personal problem: accurately representing a broad body of technical, professional, academic, and entrepreneurial work through conventional career materials.
 
-<!-- Add links after reviewing the page. -->
-
-[GitHub](#) · [LinkedIn](#) · [Email](#)
+[GitHub](https://github.com/Cmorreale99) · [LinkedIn](https://www.linkedin.com/in/cam-morreale99/) · [Email](comrreale99@gmail.com)
 
 ---
 
@@ -464,8 +464,6 @@ Relevant feedback includes:
 - Which Career Profile sections would be most useful
 - What privacy or security requirements would need to be met
 - Whether the product could improve advisor effectiveness
-
-<!-- Replace the links below with your actual form and email address. -->
 
 [Join the CareerPilot pilot](#) · [Schedule a conversation](#) · [Contact the founder](mailto:YOUR_EMAIL_HERE)
 
@@ -493,3 +491,211 @@ The repository README contains the technical architecture, implementation workfl
 ---
 
 © 2026 CareerPilot
+"""
+
+# Strip YAML front matter
+markdown_text = re.sub(r"^---\n.*?\n---\n", "", markdown_text, flags=re.S)
+
+def inline_format(text):
+    text = html.escape(text)
+    text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+    text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', text)
+    return text
+
+lines = markdown_text.splitlines()
+body = []
+in_ul = False
+in_blockquote = False
+
+for raw in lines:
+    line = raw.rstrip()
+
+    if not line:
+        if in_ul:
+            body.append("</ul>")
+            in_ul = False
+        if in_blockquote:
+            body.append("</blockquote>")
+            in_blockquote = False
+        continue
+
+    if line == "---":
+        if in_ul:
+            body.append("</ul>")
+            in_ul = False
+        body.append("<hr>")
+        continue
+
+    if line.startswith("# "):
+        body.append(f'<h1>{inline_format(line[2:])}</h1>')
+    elif line.startswith("## "):
+        if in_ul:
+            body.append("</ul>")
+            in_ul = False
+        title = line[3:]
+        slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+        body.append(f'<section id="{slug}"><h2>{inline_format(title)}</h2>')
+        body.append("</section>")
+    elif line.startswith("### "):
+        body.append(f'<h3>{inline_format(line[4:])}</h3>')
+    elif line.startswith("- "):
+        if not in_ul:
+            body.append("<ul>")
+            in_ul = True
+        body.append(f"<li>{inline_format(line[2:])}</li>")
+    elif line.startswith("> "):
+        if not in_blockquote:
+            body.append("<blockquote>")
+            in_blockquote = True
+        body.append(f"<p>{inline_format(line[2:])}</p>")
+    else:
+        if in_ul:
+            body.append("</ul>")
+            in_ul = False
+        body.append(f"<p>{inline_format(line)}</p>")
+
+if in_ul:
+    body.append("</ul>")
+if in_blockquote:
+    body.append("</blockquote>")
+
+body_html = "\n".join(body)
+
+html_doc = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CareerPilot turns scattered career evidence into structured, evidence-backed career profiles for career advisors and their clients.">
+  <title>CareerPilot</title>
+  <style>
+    :root {{
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --text: #172033;
+      --muted: #5f6b7a;
+      --border: #dfe5ec;
+      --accent: #3157d5;
+      --accent-dark: #213f9d;
+      --max: 920px;
+    }}
+
+    * {{ box-sizing: border-box; }}
+
+    html {{ scroll-behavior: smooth; }}
+
+    body {{
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }}
+
+    main {{
+      width: min(calc(100% - 32px), var(--max));
+      margin: 40px auto;
+      padding: 56px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(20, 35, 70, 0.06);
+    }}
+
+    h1 {{
+      margin: 0 0 12px;
+      font-size: clamp(2.7rem, 8vw, 5rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }}
+
+    h2 {{
+      margin-top: 64px;
+      margin-bottom: 18px;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }}
+
+    h3 {{
+      margin-top: 32px;
+      margin-bottom: 8px;
+      font-size: 1.25rem;
+      line-height: 1.35;
+    }}
+
+    p {{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }}
+
+    h1 + h2 {{
+      margin-top: 14px;
+      max-width: 780px;
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+    }}
+
+    strong {{ color: var(--text); }}
+
+    a {{
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }}
+
+    a:hover {{ color: var(--accent-dark); }}
+
+    ul {{
+      margin: 8px 0 24px;
+      padding-left: 24px;
+      color: var(--muted);
+    }}
+
+    li {{ margin: 7px 0; }}
+
+    hr {{
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }}
+
+    blockquote {{
+      margin: 26px 0;
+      padding: 18px 22px;
+      border-left: 4px solid var(--accent);
+      background: #f1f4ff;
+      border-radius: 0 10px 10px 0;
+    }}
+
+    blockquote p {{
+      margin: 0;
+      color: var(--text);
+      font-weight: 600;
+    }}
+
+    @media (max-width: 700px) {{
+      main {{
+        width: 100%;
+        margin: 0;
+        padding: 28px 20px 48px;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }}
+
+      h2 {{ margin-top: 46px; }}
+    }}
+  </style>
+</head>
+<body>
+  <main>
+{body_html}
+  </main>
+</body>
+</html>
+"""
+
+out_path = Path("/mnt/data/index.html")
+out_path.write_text(html_doc, encoding="utf-8")
+print(f"Created {out_path}")
